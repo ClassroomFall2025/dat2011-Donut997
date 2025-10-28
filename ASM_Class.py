@@ -20,7 +20,7 @@ class NhanVien:
         thu_nhap = self.getThuNhap()
         thue = self.getThueTN()
         print(f"Mã NV: {self.ma_nv} | Tên: {self.ho_ten} | Lương: {self.luong} VNĐ")
-        print(f"    -> Thu nhập: {thu_nhap} VNĐ | Thuế: {thue} VNĐ")
+        print(f"-> Thu nhập: {thu_nhap} VNĐ | Thuế: {thue} VNĐ")
 
 class TiepThi(NhanVien):
     def __init__(self, ma_nv, ho_ten, luong, doanh_so, hoa_hong):

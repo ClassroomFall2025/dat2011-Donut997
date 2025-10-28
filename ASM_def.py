@@ -2,7 +2,6 @@
 from ASM_CL import NhanVien, TiepThi, TruongPhong
 ds_nv = []
 
-#1
 def nhap_danh_sach_nv():                          
     n = int(input("Nhập số lượng nhân viên: "))
     for i in range(n):
@@ -29,13 +28,46 @@ def nhap_danh_sach_nv():
 
 
 def luu_vao_file():
-    print("Chức năng lưu vào file chưa được triển khai.")
-
+    with open("danhsach_nv.txt", "w", encoding="utf-8") as f:
+        for nv in ds_nv:
+            if isinstance(nv, TiepThi):
+                loai = "TiepThi"
+                extra = f"{nv.doanh_so},{nv.hoa_hong}"
+            elif isinstance(nv, TruongPhong):
+                loai = "TruongPhong"
+                extra = f"{nv.trach_nhiem}"
+            else:
+                loai = "NhanVien"
+                extra = ""
+            line = f"{loai}|{nv.ma_nv}|{nv.ho_ten}|{nv.luong}|{extra}\n"
+            f.write(line)
 def doc_tu_file():
-    print("Chức năng lưu vào file chưa được triển khai.")
+    ds_nv.clear()
+    try:
+        with open("danhsach_nv.txt", "r", encoding="utf-8") as f:
+            for line in f:
+                parts = line.strip().split("|")
+                loai = parts[0]
+                ma_nv = parts[1]
+                ho_ten = parts[2]
+                luong = float(parts[3])
+
+                if loai == "TiepThi":
+                    doanh_so, hoa_hong = map(float, parts[4].split(","))
+                    nv = TiepThi(ma_nv, ho_ten, luong, doanh_so, hoa_hong)
+                elif loai == "TruongPhong":
+                    trach_nhiem = float(parts[4])
+                    nv = TruongPhong(ma_nv, ho_ten, luong, trach_nhiem)
+                else:
+                    nv = NhanVien(ma_nv, ho_ten, luong)
+
+                ds_nv.append(nv)
+        print("Đã đọc danh sách nhân viên từ file thành công!")
+    except FileNotFoundError:
+        print("File danhsach_nv.txt không tồn tại.")
 
 
-#3
+
 def tim_nv_theo_ma():                             
     ma = input("Nhập mã nhân viên cần tìm: ")
     for nv in ds_nv:
